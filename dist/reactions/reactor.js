@@ -10,7 +10,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.reactor = exports.Reactor = void 0;
-const config_1 = require("../config/config");
 const ACK_REACTIONS = ['👍', '🎮', '💚', '🍜'];
 const EXPIRED_REACTIONS = ['🖤'];
 const FAILURE_REACTIONS = ['⛔', '🚱'];
@@ -48,5 +47,5 @@ class Reactor {
     }
 }
 exports.Reactor = Reactor;
-exports.reactor = new Reactor(config_1.config.enableReactions);
+exports.reactor = new Reactor(process.env.ENABLE_REACTIONS === 'true' || true);
 //# sourceMappingURL=reactor.js.map
