@@ -21,12 +21,12 @@ class HelpCommand {
             if (commandContext.args.length === 0) {
                 // No command specified, give the user a list of all commands they can use.
                 const commandNames = allowedCommands.map((command) => command.commandNames[0]);
-                yield commandContext.originalMessage.reply(`here is a list of commands you can run: ${commandNames.join(', ')}. Try !help ${commandNames[0]} to learn more about one of them.`);
+                yield commandContext.originalMessage.reply(`acá una lista de los comando que puedes utilizar: ${commandNames.join(", ")}. Prueba ${process.env.PREFIX || "+"}help ${commandNames[0]} para saber mas sobre el comando.`);
                 return;
             }
             const matchedCommand = this.commands.find((command) => command.commandNames.includes(commandContext.args[0]));
             if (!matchedCommand) {
-                yield commandContext.originalMessage.reply("I don't know about that command :(. Try !help to find all commands you can use.");
+                yield commandContext.originalMessage.reply(`No conozco ese comando, utiliza ${process.env.PREFIX || '+'}help para conocer los comandos disponibles.`);
                 throw Error('Unrecognized command');
             }
             if (allowedCommands.includes(matchedCommand)) {
