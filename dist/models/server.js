@@ -11,11 +11,11 @@ class Server {
         this.app = express_1.default();
         this.port = process.env.PORT || "8000";
         // Métodos iniciales
-        this.middlewares();
+        this.middleware();
         // Discord
         this.discord = new discord_1.default();
     }
-    middlewares() {
+    middleware() {
         // CORS
         this.app.use(cors_1.default());
         // Lectura body

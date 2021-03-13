@@ -35,7 +35,7 @@ class TiempoCommand {
                     .addField("RealFeel", data.main.feels_like + "°")
                     .addField("Min", data.main.temp_min + "°")
                     .addField("Max", data.main.temp_max + "°")
-                    .addField("Precion", data.main.pressure + " hPa")
+                    .addField("Presión", data.main.pressure + " hPa")
                     .addField("Humedad", data.main.humidity + "%");
                 parsedUserCommand.originalMessage.channel.send(embed);
             })
