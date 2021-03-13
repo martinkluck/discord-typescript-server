@@ -27,7 +27,6 @@ export class HelpCommand implements Command {
           commandNames[0]
         } para saber mas sobre el comando.`
       );
-      return;
     }
 
     const matchedCommand = this.commands.find((command) =>

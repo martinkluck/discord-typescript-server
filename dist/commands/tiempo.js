@@ -38,7 +38,6 @@ class TiempoCommand {
                     .addField("Precion", data.main.pressure + " hPa")
                     .addField("Humedad", data.main.humidity + "%");
                 parsedUserCommand.originalMessage.channel.send(embed);
-                return null;
             })
                 .catch((error) => {
                 parsedUserCommand.originalMessage.reply("Vuelve a intentarlo, parece que esa ciudad no existe");

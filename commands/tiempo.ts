@@ -27,7 +27,6 @@ export class TiempoCommand implements Command {
           .addField("Precion", data.main.pressure + " hPa")
           .addField("Humedad", data.main.humidity + "%");
         parsedUserCommand.originalMessage.channel.send(embed);
-        return null;
       })
       .catch((error) => {
         parsedUserCommand.originalMessage.reply(

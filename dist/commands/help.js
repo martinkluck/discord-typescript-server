@@ -22,7 +22,6 @@ class HelpCommand {
                 // No command specified, give the user a list of all commands they can use.
                 const commandNames = allowedCommands.map((command) => command.commandNames[0]);
                 yield commandContext.originalMessage.reply(`acá una lista de los comando que puedes utilizar: ${commandNames.join(", ")}. Prueba ${process.env.PREFIX || "+"}help ${commandNames[0]} para saber mas sobre el comando.`);
-                return;
             }
             const matchedCommand = this.commands.find((command) => command.commandNames.includes(commandContext.args[0]));
             if (!matchedCommand) {

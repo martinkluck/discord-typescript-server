@@ -6,7 +6,7 @@ export class BitcoinCommand implements Command {
   commandNames = ["bitcoin"];
 
   getHelpMessage(commandPrefix: string): string {
-    return `Use ${commandPrefix}bitcoin to get a current price.`;
+    return `Use ${commandPrefix}bitcoin para saber el ultimo precio del Bitcoin.`;
   }
 
   async run(parsedUserCommand: CommandContext): Promise<void> {
