@@ -11,18 +11,16 @@ class Discord {
         this.bot = new discord_js_1.Client();
         this.commandHandler = new command_handler_1.CommandHandler(process.env.PREFIX || "+");
         this.discordChannel = process.env.DISCORD_CHANNEL || "prueba-bot";
-        this.slack_client = new slackbots_1.default({
-            token: process.env.SLACK_TOKEN,
-            name: "discord-connector",
-        });
-        //   this.bot.commands = new Collection();
         this.bot_token = process.env.TOKEN || "";
+        if (process.env.SLACK_TOKEN) {
+            this.slackLogin();
+            //Slack
+            this.discordSlackMessages();
+        }
         // Listening Messages
         this.messages();
         // Listening Errors
         this.errors();
-        //Slack
-        this.discordSlackMessages();
         // Login
         this.login();
     }
@@ -32,6 +30,12 @@ class Discord {
             if (this.bot && this.bot.user) {
                 console.info(`Logged in as ${this.bot.user.tag}!`);
             }
+        });
+    }
+    slackLogin() {
+        this.slack_client = new slackbots_1.default({
+            token: process.env.SLACK_TOKEN,
+            name: "discord-connector",
         });
         this.slack_client.on("start", function () {
             console.log("Slack connected");
