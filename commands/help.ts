@@ -21,11 +21,12 @@ export class HelpCommand implements Command {
         (command) => command.commandNames[0],
       );
       await commandContext.originalMessage.reply(
-        `here is a list of commands you can run: ${commandNames.join(
-          ', ',
-        )}. Try !help ${commandNames[0]} to learn more about one of them.`,
+        `acá una lista de los comando que puedes utilizar: ${commandNames.join(
+          ", "
+        )}. Prueba ${process.env.PREFIX || "+"}help ${
+          commandNames[0]
+        } para saber mas sobre el comando.`
       );
-      return;
     }
 
     const matchedCommand = this.commands.find((command) =>
@@ -33,7 +34,7 @@ export class HelpCommand implements Command {
     );
     if (!matchedCommand) {
       await commandContext.originalMessage.reply(
-        "I don't know about that command :(. Try !help to find all commands you can use.",
+        `No conozco ese comando, utiliza ${process.env.PREFIX || '+'}help para conocer los comandos disponibles.`,
       );
       throw Error('Unrecognized command');
     }

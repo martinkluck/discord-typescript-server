@@ -19,7 +19,7 @@ class BitcoinCommand {
         this.commandNames = ["bitcoin"];
     }
     getHelpMessage(commandPrefix) {
-        return `Use ${commandPrefix}bitcoin to get a current price.`;
+        return `Use ${commandPrefix}bitcoin para saber el ultimo precio del Bitcoin.`;
     }
     run(parsedUserCommand) {
         return __awaiter(this, void 0, void 0, function* () {

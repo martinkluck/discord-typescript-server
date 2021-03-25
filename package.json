@@ -5,7 +5,8 @@
   "main": "dist/app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "tsc-watch --onSuccess \"node dist/app.js\""
+    "dev": "tsc-watch --onSuccess \"node dist/app.js\"",
+    "start": "node ./dist/app.js"
   },
   "keywords": [
     "node",
@@ -25,6 +26,7 @@
     "pg-hstore": "^2.3.3",
     "sequelize": "^6.5.0",
     "twitter": "^1.7.1"
+    "slackbots": "^1.2.0"
   },
   "devDependencies": {
     "@types/cors": "^2.8.10",

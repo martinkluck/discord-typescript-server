@@ -12,13 +12,13 @@ class Server {
     this.port = process.env.PORT || "8000";
 
     // Métodos iniciales
-    this.middlewares();
+    this.middleware();
 
     // Discord
     this.discord = new Discord();
   }
 
-  middlewares() {
+  middleware() {
     // CORS
     this.app.use(cors());
 
