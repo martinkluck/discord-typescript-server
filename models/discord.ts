@@ -149,7 +149,7 @@ class Discord {
     message.setTitle("Nuevo deploy");    
     message.setAuthor(
       "Heroku",
-      "https://brand.heroku.com/static/media/heroku-logo-solid.ab0c1b46.svg"
+      "https://c0.klipartz.com/pngpicture/855/935/gratis-png-logo-de-heroku-logo-de-heroku.png"
     );
     message.addField("App", response.data.app.name);
     message.addField("Deployer", response.actor.email);
