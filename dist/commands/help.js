@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.HelpCommand = void 0;
 class HelpCommand {
     constructor(commands) {
-        this.commandNames = ['help', 'halp', 'hlep'];
+        this.commandNames = ['help'];
         this.commands = commands;
     }
     run(commandContext) {

@@ -7,6 +7,7 @@ import {
   TextChannel,
 } from "discord.js";
 import Bot from "slackbots";
+import Twitter from "./twitter";
 
 class Discord {
   private bot: Client;
@@ -14,17 +15,21 @@ class Discord {
   private commandHandler: CommandHandler;
   private slack_client: any;
   private discordChannel: string;
+  private twitter: Twitter;
 
   constructor() {
     this.bot = new Client();
     this.commandHandler = new CommandHandler(process.env.PREFIX || "+");
-    this.discordChannel = process.env.DISCORD_CHANNEL || "prueba-bot";    
+    this.discordChannel = process.env.DISCORD_CHANNEL || "prueba-bot";
     this.bot_token = process.env.TOKEN || "";
-    if(process.env.SLACK_TOKEN) {
+
+    if (process.env.SLACK_TOKEN) {
       this.slackLogin();
       //Slack
       this.discordSlackMessages();
     }
+    // Twitter
+    this.twitter = new Twitter();
     // Listening Messages
     this.messages();
     // Listening Errors
@@ -36,9 +41,14 @@ class Discord {
   login() {
     this.bot.login(this.bot_token);
 
-    this.bot.on("ready", () => {
+    this.bot.on("ready", async () => {
       if (this.bot && this.bot.user) {
         console.info(`Logged in as ${this.bot.user.tag}!`);
+
+        let channel = (await this.bot.channels.cache.find(
+          (channel) => channel.id === "812743852875579392"
+        )) as TextChannel;
+        this.twitter.streamTweets(channel);
       }
     });
   }
@@ -117,10 +127,11 @@ class Discord {
             console.log(
               "Slack  --> " + realname + " (" + username + ") : " + message.text
             );
+            // console.log(channel);
+
             let channel = this.bot.channels.cache.get(
               this.discordChannel
             ) as TextChannel;
-            // console.log(channel);
             channel.send(realname + " : " + message.text);
           }
         });

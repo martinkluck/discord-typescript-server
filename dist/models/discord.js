@@ -1,4 +1,13 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -6,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const command_handler_1 = require("./command_handler");
 const discord_js_1 = require("discord.js");
 const slackbots_1 = __importDefault(require("slackbots"));
+const twitter_1 = __importDefault(require("./twitter"));
 class Discord {
     constructor() {
         this.bot = new discord_js_1.Client();
@@ -17,6 +27,8 @@ class Discord {
             //Slack
             this.discordSlackMessages();
         }
+        // Twitter
+        this.twitter = new twitter_1.default();
         // Listening Messages
         this.messages();
         // Listening Errors
@@ -26,11 +38,13 @@ class Discord {
     }
     login() {
         this.bot.login(this.bot_token);
-        this.bot.on("ready", () => {
+        this.bot.on("ready", () => __awaiter(this, void 0, void 0, function* () {
             if (this.bot && this.bot.user) {
                 console.info(`Logged in as ${this.bot.user.tag}!`);
+                let channel = (yield this.bot.channels.cache.find((channel) => channel.id === "812743852875579392"));
+                this.twitter.streamTweets(channel);
             }
-        });
+        }));
     }
     slackLogin() {
         this.slack_client = new slackbots_1.default({
@@ -92,8 +106,8 @@ class Discord {
                         let username = elem.name;
                         let realname = elem.real_name;
                         console.log("Slack  --> " + realname + " (" + username + ") : " + message.text);
-                        let channel = this.bot.channels.cache.get(this.discordChannel);
                         // console.log(channel);
+                        let channel = this.bot.channels.cache.get(this.discordChannel);
                         channel.send(realname + " : " + message.text);
                     }
                 });

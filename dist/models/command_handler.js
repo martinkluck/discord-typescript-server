@@ -31,7 +31,6 @@ class CommandHandler {
             clear_1.ClearCommand,
             feriados_1.FeriadosCommand,
             fortuna_1.FortunaCommand,
-            // StarWarsCommand,
             tiempo_1.TiempoCommand,
         ];
         this.commands = commandClasses.map((CommandClass) => new CommandClass());

@@ -1,22 +1,51 @@
-import Twitter from "twitter";
+import { MessageEmbed, TextChannel } from "discord.js";
+import Twitter from "twit";
 
 class ApiTwitter {
-    private client: Twitter;
+  private client: Twitter;
 
-    constructor() {
-        this.client = new Twitter({
-          consumer_key: process.env.TWITTER_CONSUMER_KEY || '',
-          consumer_secret: process.env.TWITTER_CONSUMER_SECRET || '',
-          access_token_key: process.env.TWITTER_ACCESS_TOKEN_KEY || '',
-          access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET || '',
-        });
+  constructor() {
+    this.client = new Twitter({
+      consumer_key: process.env.TWITTER_API_KEY || "",
+      consumer_secret: process.env.TWITTER_API_SECRET_KEY || "",
+      access_token: process.env.TWITTER_ACCESS_TOKEN || "",
+      access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET || "",
+    });
 
-        this.client.get(
+    /* this.client.get(
           "search/tweets",
-          { q: "node.js" },
+          { q: "Heroku" },
           function (error, tweets, response) {
             console.log(tweets);
           }
-        );
-    }
+        ); */
+
+    // this.client.get(
+    //   "statuses/user_timeline",
+    //   params,
+    //   function (error, tweets, response) {
+    //     if (!error) {
+    //       console.log(tweets);
+    //     }
+    //   }
+    // );
+  }
+
+  streamTweets(channel: TextChannel) {
+    let stream = this.client.stream("statuses/filter", {
+      follow: process.env.TWITTER_USER_ID,
+    });
+    stream.on("tweet", (tweet) => {
+      const embed = new MessageEmbed();
+      embed.setAuthor(tweet.user.name, tweet.user.profile_image_url_https);
+      embed.setDescription(tweet.text);
+      channel.send(embed);
+    });
+
+    stream.on("error", function (error: any) {
+      console.log(error);
+    });
+  }
 }
+
+export default ApiTwitter;

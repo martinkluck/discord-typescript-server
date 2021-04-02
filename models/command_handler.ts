@@ -9,7 +9,6 @@ import { reactor } from "../reactions/reactor";
 import { ClearCommand } from "../commands/clear";
 import { FeriadosCommand } from "../commands/feriados";
 import { FortunaCommand } from "../commands/fortuna";
-import { StarWarsCommand } from "../commands/starwars";
 import { TiempoCommand } from "../commands/tiempo";
 
 /** Handler for bot commands issued by users. */
@@ -27,7 +26,6 @@ export class CommandHandler {
       ClearCommand,
       FeriadosCommand,
       FortunaCommand,
-      // StarWarsCommand,
       TiempoCommand,
     ];
 
