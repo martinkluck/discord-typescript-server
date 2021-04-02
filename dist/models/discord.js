@@ -114,6 +114,18 @@ class Discord {
             }
         });
     }
+    sendDeployMessage(response) {
+        let channel = this.bot.channels.cache.find((channel) => channel.id === "694967977530884176");
+        let message = new discord_js_1.MessageEmbed();
+        message.setColor(0x79589F);
+        message.setTitle("Nuevo deploy");
+        message.setAuthor("Heroku", "https://brand.heroku.com/static/media/heroku-logo-solid.ab0c1b46.svg");
+        message.addField("App", response.data.app.name);
+        message.addField("Deployer", response.actor.email);
+        message.addField("Estado", response.resource);
+        message.addField("Hora", response.updated_at);
+        channel.send(message);
+    }
 }
 exports.default = Discord;
 //# sourceMappingURL=discord.js.map

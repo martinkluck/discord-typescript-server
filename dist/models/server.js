@@ -22,6 +22,17 @@ class Server {
         this.app.use(express_1.default.json());
         // Carpeta publica
         this.app.use(express_1.default.static("public"));
+        this.app.post("/api/new_release", (req, res) => {
+            try {
+                let response = req.body;
+                console.log(response);
+                this.discord.sendDeployMessage(response);
+                res.send("message sended");
+            }
+            catch (error) {
+                res.status(500).send(error);
+            }
+        });
     }
     listen() {
         this.app.listen(this.port, () => {

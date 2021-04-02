@@ -1,6 +1,7 @@
 import express, { Application } from "express";
 import cors from "cors";
-import Discord from './discord';
+import Discord from "./discord";
+import { Heroku } from "../types/heroku.interfase";
 
 class Server {
   private app: Application;
@@ -27,6 +28,17 @@ class Server {
 
     // Carpeta publica
     this.app.use(express.static("public"));
+
+    this.app.post("/api/new_release", (req, res) => {
+      try {
+        let response = req.body as Heroku;
+        console.log(response);
+        this.discord.sendDeployMessage(response);
+        res.send("message sended");
+      } catch (error) {
+        res.status(500).send(error);
+      }
+    });
   }
 
   listen() {
