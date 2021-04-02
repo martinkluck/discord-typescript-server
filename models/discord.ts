@@ -153,7 +153,7 @@ class Discord {
     );
     message.addField("App", response.data.app.name);
     message.addField("Deployer", response.actor.email);
-    message.addField("Estado", response.resource);
+    message.addField("Estado", response.resource + ' ' + response.data.status);
     message.addField("Hora", response.updated_at);
     channel.send(message);
   }
