@@ -36,10 +36,12 @@ class ApiTwitter {
       follow: process.env.TWITTER_USER_ID,
     });
     stream.on("tweet", (tweet) => {
-      const embed = new MessageEmbed();
-      embed.setAuthor(tweet.user.name, tweet.user.profile_image_url_https);
-      embed.setDescription(tweet.text);
-      channel.send(embed);
+      if(parseInt(process.env.TWITTER_USER_ID || "") === tweet.user.id) {
+        const embed = new MessageEmbed();
+        embed.setAuthor(tweet.user.name, tweet.user.profile_image_url_https);
+        embed.setDescription(tweet.text);
+        channel.send(embed);
+      }
     });
 
     stream.on("error", function (error: any) {
