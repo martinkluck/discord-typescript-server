@@ -1,6 +1,8 @@
+import { Tweet } from './../types/tweet.interface';
 import { MessageEmbed, TextChannel } from "discord.js";
+import { any } from "sequelize/types/lib/operators";
 import Twitter from "twit";
-
+import DataBase from "./prisma";
 class ApiTwitter {
   private client: Twitter;
 
@@ -31,22 +33,34 @@ class ApiTwitter {
     // );
   }
 
-  streamTweets(channel: TextChannel) {
-    let stream = this.client.stream("statuses/filter", {
-      follow: process.env.TWITTER_USER_ID,
-    });
-    stream.on("tweet", (tweet) => {
-      if(parseInt(process.env.TWITTER_USER_ID || "") === tweet.user.id) {
-        const embed = new MessageEmbed();
-        embed.setAuthor(tweet.user.name, tweet.user.profile_image_url_https);
-        embed.setDescription(tweet.text);
-        channel.send(embed);
-      }
-    });
+  async streamTweets(channel: TextChannel) {
+    const connection = new DataBase();
+    try {
+      const twitter_accounts = await connection
+        .getConnection()
+        .tweetNotifications.findMany();
+      const ta = twitter_accounts.map((account) => account.twitter_id.toString());
 
-    stream.on("error", function (error: any) {
+      let stream = this.client.stream("statuses/filter", {
+        follow: ta.join(','),
+      });
+      stream.on("tweet", (tweet: Tweet) => {
+        if (ta.includes(tweet.user.id.toString())) {
+          const embed = new MessageEmbed();
+          embed.setAuthor(tweet.user.name, tweet.user.profile_image_url_https);
+          embed.setDescription(tweet.text);
+          channel.send(embed);
+        }
+      });
+
+      stream.on("error", function (error: any) {
+        console.log(error);
+      });
+    } catch (error) {
       console.log(error);
-    });
+    } finally {
+      connection.release();
+    }
   }
 }
 
