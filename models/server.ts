@@ -29,6 +29,10 @@ class Server {
     // Carpeta publica
     this.app.use(express.static("public"));
 
+    this.app.get("/api/status", (req, res) => {
+      res.send("Server is ok");
+    });
+
     this.app.post("/api/new_release", (req, res) => {
       try {
         let response = req.body as Heroku;

@@ -22,6 +22,9 @@ class Server {
         this.app.use(express_1.default.json());
         // Carpeta publica
         this.app.use(express_1.default.static("public"));
+        this.app.get("/api/status", (req, res) => {
+            res.send("Server is ok");
+        });
         this.app.post("/api/new_release", (req, res) => {
             try {
                 let response = req.body;
