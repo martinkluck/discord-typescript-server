@@ -1,4 +1,4 @@
-import { Heroku } from "./../types/heroku.interfase";
+import { Heroku } from "../types/heroku.interface";
 import { CommandHandler } from "./command_handler";
 import {
   Client,
@@ -81,7 +81,6 @@ class Discord {
     //Redirect Discord messages to Slack
     this.bot.on("message", (message: Message) => {
       //Check if message is from the discord channel configured above
-      //(Thanks athyk)
       if (
         message.channel.type === "text" &&
         message.channel.id !== this.discordChannel
@@ -91,7 +90,6 @@ class Discord {
       //Avoiding re-sending a message we just received from Slack
       //(event gets triggered even if it's a msg *we* sent to the chat)
       if (message.author.username != this.bot.user?.username) {
-        //Check for atachements (files/images/etc.)
         var content = message.content;
         if (message.attachments != null) {
           var attachments = message.attachments.array();
@@ -124,16 +122,16 @@ class Discord {
         this.slack_client.getUsers()._value.members.forEach((elem: any) => {
           if (elem.id == message.user) {
             let username = elem.name;
-            let realname = elem.real_name;
+            let realName = elem.real_name;
             console.log(
-              "Slack  --> " + realname + " (" + username + ") : " + message.text
+              "Slack  --> " + realName + " (" + username + ") : " + message.text
             );
             // console.log(channel);
 
             let channel = this.bot.channels.cache.get(
               this.discordChannel
             ) as TextChannel;
-            channel.send(realname + " : " + message.text);
+            channel.send(realName + " : " + message.text);
           }
         });
       }

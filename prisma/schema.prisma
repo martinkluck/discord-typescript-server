@@ -15,3 +15,9 @@ model TweetNotifications {
   name    String?
   twitter_id BigInt
 }
+
+model ApiNotifications {
+  id Int @default(autoincrement()) @id
+  name String?
+  channel_id String
+}

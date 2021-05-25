@@ -1,16 +1,20 @@
 import express, { Application } from "express";
 import cors from "cors";
 import Discord from "./discord";
-import { Heroku } from "../types/heroku.interfase";
+import ApiNotification from "./api_notification";
+import { Heroku } from "../types/heroku.interface";
 
 class Server {
   private app: Application;
   private port: string;
   private discord: Discord;
+  private apiNotification: ApiNotification;
 
   constructor() {
     this.app = express();
     this.port = process.env.PORT || "8000";
+
+    this.apiNotification = new ApiNotification();
 
     // Métodos iniciales
     this.middleware();
@@ -19,7 +23,7 @@ class Server {
     this.discord = new Discord();
   }
 
-  middleware() {
+  async middleware() {
     // CORS
     this.app.use(cors());
 
@@ -43,6 +47,22 @@ class Server {
         res.status(500).send(error);
       }
     });
+
+    let notifications = await this.apiNotification.getApiNotifications();
+    notifications.forEach((notification) => {
+      // console.log(notification.name);
+      this.app.post(`/api/${notification.name}`, (req, res) => {
+        try {
+          let response = req.body as Heroku;
+          // console.log(response);
+          this.discord.sendDeployMessage(response);
+          res.send("message sended");
+        } catch (error) {
+          res.status(500).send(error);
+        }
+      });
+    });
+    // console.log(this.app._router.stack);
   }
 
   listen() {

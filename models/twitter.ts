@@ -1,6 +1,5 @@
 import { Tweet } from './../types/tweet.interface';
 import { MessageEmbed, TextChannel } from "discord.js";
-import { any } from "sequelize/types/lib/operators";
 import Twitter from "twit";
 import DataBase from "./prisma";
 class ApiTwitter {
